@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ['Check']
+    branches: [main]
+    types:
+      - completed
+
+permissions:
+  contents: read # Needed for checking out code
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed for publishing GitHub release
+      issues: write # Needed for commenting on issues related to releases
+      pull-requests: write # Needed for commenting on pull requests related to releases
+      id-token: write # Needed for using OIDC for npm provenance
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+         node-version: 'lts/*' # semantic-release requires Node >= 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm install -g semantic-release @semantic-release/changelog @semantic-release/git
+          npx semantic-release
