@@ -1,3 +1,3 @@
-export { MultilangProvider } from './MultilangProvider';
-export { useMultilang } from './useMultilang';
+export { TranslangProvider } from './TranslangProvider';
+export { useTranslang } from './useTranslang';
 export { Language, TranslationData, Translations } from './types';

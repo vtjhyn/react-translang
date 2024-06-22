@@ -1,21 +1,21 @@
 import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { Language, Translations } from './types';
 
-export interface MultilangContextType {
+export interface TranslangContextType {
   language: Language;
   setLanguage: (language: Language) => void;
   t: (key: string) => string;
 }
 
-export const MultilangContext = createContext<MultilangContextType | undefined>(undefined);
+export const TranslangContext = createContext<TranslangContextType | undefined>(undefined);
 
-interface MultilangProviderProps {
+interface TranslangProviderProps {
   translations: Translations;
   defaultLanguage: Language;
   children: React.ReactNode;
 }
 
-export const MultilangProvider: React.FC<MultilangProviderProps> = ({
+export const TranslangProvider: React.FC<TranslangProviderProps> = ({
   translations,
   defaultLanguage,
   children,
@@ -61,8 +61,8 @@ export const MultilangProvider: React.FC<MultilangProviderProps> = ({
   }), [language, setLanguage, t]);
 
   return (
-    <MultilangContext.Provider value={contextValue}>
+    <TranslangContext.Provider value={contextValue}>
       {children}
-    </MultilangContext.Provider>
+    </TranslangContext.Provider>
   );
 };

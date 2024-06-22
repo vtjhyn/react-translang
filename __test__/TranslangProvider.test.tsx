@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { MultilangProvider } from '../src/MultilangProvider';
-import { useMultilang } from '../src/useMultilang';
+import { TranslangProvider } from '../src/TranslangProvider';
+import { useTranslang } from '../src/useTranslang';
 
 const translations = {
   en: { greeting: 'Hello!' },
@@ -11,7 +11,7 @@ const translations = {
 };
 
 const TestComponent = () => {
-  const { t, setLanguage } = useMultilang();
+  const { t, setLanguage } = useTranslang();
   return (
     <div>
       <p>{t('greeting')}</p>
@@ -22,21 +22,21 @@ const TestComponent = () => {
   );
 };
 
-describe('MultilangProvider', () => {
+describe('TranslangProvider', () => {
   test('renders correctly with default language', () => {
     render(
-      <MultilangProvider translations={translations} defaultLanguage="en">
+      <TranslangProvider translations={translations} defaultLanguage="en">
         <TestComponent />
-      </MultilangProvider>,
+      </TranslangProvider>,
     );
     expect(screen.getByText('Hello!')).toBeInTheDocument();
   });
 
   test('changes language to Chinese', async () => {
     render(
-      <MultilangProvider translations={translations} defaultLanguage="en">
+      <TranslangProvider translations={translations} defaultLanguage="en">
         <TestComponent />
-      </MultilangProvider>,
+      </TranslangProvider>,
     );
     userEvent.click(screen.getByText('Change to Chinese'));
     await waitFor(() => {
@@ -46,9 +46,9 @@ describe('MultilangProvider', () => {
 
   test('changes language to French', async () => {
     render(
-      <MultilangProvider translations={translations} defaultLanguage="en">
+      <TranslangProvider translations={translations} defaultLanguage="en">
         <TestComponent />
-      </MultilangProvider>,
+      </TranslangProvider>,
     );
     userEvent.click(screen.getByText('Change to French'));
     await waitFor(() => {
@@ -58,9 +58,9 @@ describe('MultilangProvider', () => {
 
   test('changes language back to default', async () => {
     render(
-      <MultilangProvider translations={translations} defaultLanguage="en">
+      <TranslangProvider translations={translations} defaultLanguage="en">
         <TestComponent />
-      </MultilangProvider>,
+      </TranslangProvider>,
     );
     // Change to Chinese first
     userEvent.click(screen.getByText('Change to Chinese'));

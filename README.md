@@ -28,14 +28,14 @@ npm install react-translang
 
 ## Usage
 
-### 1. Setup `MultilangProvider`
+### 1. Setup `TranslangProvider`
 
-Wrap your root component with `MultilangProvider` and provide the list of supported languages and default language.
+Wrap your root component with `TranslangProvider` and provide the list of supported languages and default language.
 
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MultilangProvider } from 'react-translang';
+import { TranslangProvider } from 'react-translang';
 
 const App = () => {
   const supportedLanguages ={
@@ -55,26 +55,26 @@ const App = () => {
   const defaultLanguage = 'en';
 
   return (
-    <MultilangProvider languages={supportedLanguages} defaultLanguage={defaultLanguage}>
+    <TranslangProvider languages={supportedLanguages} defaultLanguage={defaultLanguage}>
       <YourAppContent />
-    </MultilangProvider>
+    </TranslangProvider>
   );
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-### 2. Use `useMultilang` Hook
+### 2. Use `useTranslang` Hook
 
-Use the `useMultilang` hook in your components to access translation functions (`t`) and current language (`language`).
+Use the `useTranslang` hook in your components to access translation functions (`t`) and current language (`language`).
 
 ```jsx
 import React from 'react';
-import { useMultilang } from 'react-translang';
+import { useTranslang } from 'react-translang';
 import { Button } from '@mui/material';
 
 const ExampleComponent = () => {
-  const { t, language, setLanguage } = useMultilang();
+  const { t, language, setLanguage } = useTranslang();
 
   const handleLanguageChange = () => {
     setLanguage(language === 'en' ? 'zh' : 'en');
@@ -129,12 +129,12 @@ Place your translation files (`en.json`, `zh.json`, `fr.json`, etc.) in a public
 
 ### Types
 
-#### `MultilangProviderProps`
+#### `TranslangProviderProps`
 
 - **`languages`**: `string[]` - Array of supported language codes.
 - **`defaultLanguage`**: `string` - Default language code.
 
-#### `MultilangContextType`
+#### `TranslangContextType`
 
 - **`language`**: `string` - Current selected language.
 - **`setLanguage`**: `(language: string) => void` - Function to set the current language.
