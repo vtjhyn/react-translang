@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { Language, Translations } from './types';
 
 export interface MultilangContextType {
@@ -23,20 +23,16 @@ export const MultilangProvider: React.FC<MultilangProviderProps> = ({
   const [language, setLanguageState] = useState<Language>(defaultLanguage);
   const [translationsState, setTranslationsState] = useState(translations[defaultLanguage]);
 
-  useEffect(() => {
-    const detectLanguage = () => {
-      const userLanguage = navigator.language.split('-')[0];
-      const supportedLanguages = Object.keys(translations);
+  const detectLanguage = useCallback(() => {
+    const userLanguage = navigator.language.split('-')[0];
+    const supportedLanguages = Object.keys(translations);
 
-      if (supportedLanguages.includes(userLanguage)) {
-        setLanguageState(userLanguage as Language);
-      } else {
-        setLanguageState(defaultLanguage);
-      }
-    };
-
-    detectLanguage();
+    return supportedLanguages.includes(userLanguage) ? userLanguage as Language : defaultLanguage;
   }, [translations, defaultLanguage]);
+
+  useEffect(() => {
+    setLanguageState(detectLanguage());
+  }, [detectLanguage]);
 
   useEffect(() => {
     if (translations[language]) {
@@ -50,16 +46,22 @@ export const MultilangProvider: React.FC<MultilangProviderProps> = ({
     }
   }, [language, translations, defaultLanguage]);
 
-  const setLanguage = (newLanguage: Language) => {
+  const setLanguage = useCallback((newLanguage: Language) => {
     setLanguageState(newLanguage);
-  };
+  }, []);
 
-  const t = (key: string): string => {
+  const t = useCallback((key: string): string => {
     return translationsState[key] || key;
-  };
+  }, [translationsState]);
+
+  const contextValue = useMemo(() => ({
+    language,
+    setLanguage,
+    t
+  }), [language, setLanguage, t]);
 
   return (
-    <MultilangContext.Provider value={{ language, setLanguage, t }}>
+    <MultilangContext.Provider value={contextValue}>
       {children}
     </MultilangContext.Provider>
   );
