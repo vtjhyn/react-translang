@@ -11,13 +11,13 @@ export const MultilangContext = createContext<MultilangContextType | undefined>(
 
 interface MultilangProviderProps {
   translations: Translations;
-  defaultLanguage?: Language;
-  children?: React.ReactNode;
+  defaultLanguage: Language;
+  children: React.ReactNode;
 }
 
 export const MultilangProvider: React.FC<MultilangProviderProps> = ({
   translations,
-  defaultLanguage = 'en',
+  defaultLanguage,
   children,
 }) => {
   const [language, setLanguageState] = useState<Language>(defaultLanguage);

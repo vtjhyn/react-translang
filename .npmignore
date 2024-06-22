@@ -1,13 +1,16 @@
 /src
 /__test__
 /node_modules
+/.husky
+/.github
 
 
 .env
 .DS_Store
 
-tsconfig.json
 .prettierrc
-.jest.config.js
-.jest.setup.js
-/.husky
+
+tsconfig.json
+
+jest.config.js
+jest.setup.js
