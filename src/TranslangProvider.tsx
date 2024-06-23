@@ -20,15 +20,20 @@ export const TranslangProvider: React.FC<TranslangProviderProps> = ({
   defaultLanguage,
   children,
 }) => {
-  const [language, setLanguageState] = useState<Language>(defaultLanguage);
-  const [translationsState, setTranslationsState] = useState(translations[defaultLanguage]);
-
   const detectLanguage = useCallback(() => {
+    const storedLanguage = localStorage.getItem('translang-language');
+    if (storedLanguage && Object.keys(translations).includes(storedLanguage)) {
+      return storedLanguage as Language;
+    }
+
     const userLanguage = navigator.language.split('-')[0];
     const supportedLanguages = Object.keys(translations);
 
     return supportedLanguages.includes(userLanguage) ? userLanguage as Language : defaultLanguage;
   }, [translations, defaultLanguage]);
+
+  const [language, setLanguageState] = useState<Language>(() => detectLanguage());
+  const [translationsState, setTranslationsState] = useState(translations[detectLanguage()]);
 
   useEffect(() => {
     setLanguageState(detectLanguage());
@@ -48,6 +53,7 @@ export const TranslangProvider: React.FC<TranslangProviderProps> = ({
 
   const setLanguage = useCallback((newLanguage: Language) => {
     setLanguageState(newLanguage);
+    localStorage.setItem('translang-language', newLanguage);
   }, []);
 
   const t = useCallback((key: string): string => {
