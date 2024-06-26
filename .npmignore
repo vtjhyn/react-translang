@@ -4,6 +4,8 @@
 /.husky
 /.github
 
+/dist/*.map
+rollup.config.js
 
 .env
 .DS_Store

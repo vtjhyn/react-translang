@@ -29,7 +29,7 @@ export const TranslangProvider: React.FC<TranslangProviderProps> = ({
     const userLanguage = navigator.language.split('-')[0];
     const supportedLanguages = Object.keys(translations);
 
-    return supportedLanguages.includes(userLanguage) ? userLanguage as Language : defaultLanguage;
+    return supportedLanguages.includes(userLanguage) ? (userLanguage as Language) : defaultLanguage;
   }, [translations, defaultLanguage]);
 
   const [language, setLanguageState] = useState<Language>(() => detectLanguage());
@@ -56,19 +56,21 @@ export const TranslangProvider: React.FC<TranslangProviderProps> = ({
     localStorage.setItem('translang-language', newLanguage);
   }, []);
 
-  const t = useCallback((key: string): string => {
-    return translationsState[key] || key;
-  }, [translationsState]);
-
-  const contextValue = useMemo(() => ({
-    language,
-    setLanguage,
-    t
-  }), [language, setLanguage, t]);
-
-  return (
-    <TranslangContext.Provider value={contextValue}>
-      {children}
-    </TranslangContext.Provider>
+  const t = useCallback(
+    (key: string): string => {
+      return translationsState[key] || key;
+    },
+    [translationsState],
   );
+
+  const contextValue = useMemo(
+    () => ({
+      language,
+      setLanguage,
+      t,
+    }),
+    [language, setLanguage, t],
+  );
+
+  return <TranslangContext.Provider value={contextValue}>{children}</TranslangContext.Provider>;
 };
