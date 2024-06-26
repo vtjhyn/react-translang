@@ -1,6 +1,6 @@
 {
   "name": "react-translang",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Library for multilingual support in React applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
