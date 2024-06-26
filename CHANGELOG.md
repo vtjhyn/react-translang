@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/vtjhyn/react-translang/compare/v1.1.0...v1.2.0) (2024-06-26)
+
+
+### Features
+
+* **provider:** persist selected language in localStorage ([ec20b60](https://github.com/vtjhyn/react-translang/commit/ec20b60d41df704c613618d823f8685e4ed99279))
+* switch to Rollup and minimze package size ([89a352e](https://github.com/vtjhyn/react-translang/commit/89a352e30dfcd3a49b1945d11baa4a73cbcd9b73))
+
 # [1.1.0](https://github.com/vtjhyn/react-translang/compare/v1.0.0...v1.1.0) (2024-06-22)
 
 
